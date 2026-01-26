@@ -4,7 +4,7 @@ import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { useHeaderHeight } from "@react-navigation/elements";
 import { useBottomTabBarHeight } from "@react-navigation/bottom-tabs";
 import { useNavigation } from "@react-navigation/native";
-import { Feather } from "@expo/vector-icons";
+import { Ionicons } from "@expo/vector-icons";
 import * as Haptics from "expo-haptics";
 
 import { ThemedText } from "@/components/ThemedText";
@@ -93,7 +93,7 @@ export default function ProfileScreen() {
             style={styles.avatar}
           />
           <Pressable style={styles.editAvatarButton} onPress={handleHaptic}>
-            <Feather name="edit-2" size={14} color={Colors.dark.buttonText} />
+            <Ionicons name="pencil" size={14} color={Colors.dark.buttonText} />
           </Pressable>
         </View>
         <ThemedText type="h3" style={styles.userName}>
@@ -185,7 +185,7 @@ export default function ProfileScreen() {
       </View>
 
       <Pressable style={styles.logoutButton} onPress={handleLogout}>
-        <Feather name="log-out" size={20} color={Colors.dark.error} />
+        <Ionicons name="log-out-outline" size={20} color={Colors.dark.error} />
         <ThemedText style={styles.logoutText}>Sign Out</ThemedText>
       </Pressable>
     </ScrollView>

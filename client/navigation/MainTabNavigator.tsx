@@ -1,6 +1,6 @@
 import React from "react";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
-import { Feather } from "@expo/vector-icons";
+import { Ionicons } from "@expo/vector-icons";
 import { BlurView } from "expo-blur";
 import { Platform, StyleSheet } from "react-native";
 
@@ -52,8 +52,8 @@ export default function MainTabNavigator() {
         component={ChatStackNavigator}
         options={{
           title: "Chat",
-          tabBarIcon: ({ color, size }) => (
-            <Feather name="message-circle" size={size} color={color} />
+          tabBarIcon: ({ color, size, focused }) => (
+            <Ionicons name={focused ? "chatbubble" : "chatbubble-outline"} size={size} color={color} />
           ),
         }}
       />
@@ -62,8 +62,8 @@ export default function MainTabNavigator() {
         component={LibraryStackNavigator}
         options={{
           title: "Library",
-          tabBarIcon: ({ color, size }) => (
-            <Feather name="book-open" size={size} color={color} />
+          tabBarIcon: ({ color, size, focused }) => (
+            <Ionicons name={focused ? "library" : "library-outline"} size={size} color={color} />
           ),
         }}
       />
@@ -72,8 +72,8 @@ export default function MainTabNavigator() {
         component={HistoryStackNavigator}
         options={{
           title: "History",
-          tabBarIcon: ({ color, size }) => (
-            <Feather name="clock" size={size} color={color} />
+          tabBarIcon: ({ color, size, focused }) => (
+            <Ionicons name={focused ? "time" : "time-outline"} size={size} color={color} />
           ),
         }}
       />
@@ -82,8 +82,8 @@ export default function MainTabNavigator() {
         component={ProfileStackNavigator}
         options={{
           title: "Profile",
-          tabBarIcon: ({ color, size }) => (
-            <Feather name="user" size={size} color={color} />
+          tabBarIcon: ({ color, size, focused }) => (
+            <Ionicons name={focused ? "person" : "person-outline"} size={size} color={color} />
           ),
         }}
       />

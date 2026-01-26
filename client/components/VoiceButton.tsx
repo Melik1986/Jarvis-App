@@ -1,7 +1,6 @@
 import React from "react";
 import { StyleSheet, Pressable, View } from "react-native";
-import { LinearGradient } from "expo-linear-gradient";
-import { Feather } from "@expo/vector-icons";
+import { Ionicons } from "@expo/vector-icons";
 import Animated, {
   useAnimatedStyle,
   useSharedValue,
@@ -12,7 +11,7 @@ import Animated, {
   WithSpringConfig,
 } from "react-native-reanimated";
 
-import { Colors, Spacing, Shadows } from "@/constants/theme";
+import { Colors, Spacing } from "@/constants/theme";
 
 interface VoiceButtonProps {
   isRecording: boolean;
@@ -36,7 +35,7 @@ export function VoiceButton({ isRecording, onPress, disabled }: VoiceButtonProps
     if (isRecording) {
       pulseScale.value = withRepeat(
         withSequence(
-          withTiming(1.2, { duration: 600 }),
+          withTiming(1.3, { duration: 600 }),
           withTiming(1, { duration: 600 })
         ),
         -1,
@@ -53,7 +52,7 @@ export function VoiceButton({ isRecording, onPress, disabled }: VoiceButtonProps
 
   const pulseStyle = useAnimatedStyle(() => ({
     transform: [{ scale: pulseScale.value }],
-    opacity: isRecording ? 0.3 : 0,
+    opacity: isRecording ? 0.4 : 0,
   }));
 
   const handlePressIn = () => {
@@ -70,33 +69,19 @@ export function VoiceButton({ isRecording, onPress, disabled }: VoiceButtonProps
 
   return (
     <View style={styles.container}>
-      <Animated.View style={[styles.pulse, pulseStyle]}>
-        <LinearGradient
-          colors={[Colors.dark.primary, Colors.dark.primaryDark]}
-          style={styles.pulseGradient}
-        />
-      </Animated.View>
+      <Animated.View style={[styles.pulse, pulseStyle]} />
       <AnimatedPressable
         onPress={onPress}
         onPressIn={handlePressIn}
         onPressOut={handlePressOut}
         disabled={disabled}
-        style={[styles.button, animatedStyle, disabled && styles.disabled]}
+        style={[styles.button, animatedStyle, disabled && styles.disabled, isRecording && styles.recording]}
       >
-        <LinearGradient
-          colors={
-            isRecording
-              ? [Colors.dark.error, "#CC4141"]
-              : [Colors.dark.primary, Colors.dark.primaryDark]
-          }
-          style={styles.gradient}
-        >
-          <Feather
-            name={isRecording ? "square" : "mic"}
-            size={28}
-            color={Colors.dark.buttonText}
-          />
-        </LinearGradient>
+        <Ionicons
+          name={isRecording ? "stop" : "mic"}
+          size={28}
+          color={isRecording ? Colors.dark.error : Colors.dark.primary}
+        />
       </AnimatedPressable>
     </View>
   );
@@ -112,24 +97,21 @@ const styles = StyleSheet.create({
     width: Spacing.fabSize + 24,
     height: Spacing.fabSize + 24,
     borderRadius: (Spacing.fabSize + 24) / 2,
-  },
-  pulseGradient: {
-    width: "100%",
-    height: "100%",
-    borderRadius: (Spacing.fabSize + 24) / 2,
+    backgroundColor: Colors.dark.primary,
   },
   button: {
     width: Spacing.fabSize,
     height: Spacing.fabSize,
     borderRadius: Spacing.fabSize / 2,
-    ...Shadows.fab,
-  },
-  gradient: {
-    width: "100%",
-    height: "100%",
-    borderRadius: Spacing.fabSize / 2,
     alignItems: "center",
     justifyContent: "center",
+    backgroundColor: "transparent",
+    borderWidth: 2,
+    borderColor: Colors.dark.primary,
+  },
+  recording: {
+    borderColor: Colors.dark.error,
+    backgroundColor: Colors.dark.error + "15",
   },
   disabled: {
     opacity: 0.5,
