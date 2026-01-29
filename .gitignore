@@ -31,13 +31,42 @@ yarn-error.*
 *.pem
 
 # local env files
+.env
+.env.local
 .env*.local
 
 # typescript
 *.tsbuildinfo
 
+# example app
 app-example
 
 # generated native folders
 /ios
 /android
+
+# Replit specific
+.cache/
+.config/
+.local/
+.upm/
+attached_assets/
+
+# Logs
+logs/
+*.log
+/tmp/
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# Build outputs
+server/dist/
+project/
+
+# Database
+*.db
+*.sqlite
