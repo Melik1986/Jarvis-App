@@ -14,6 +14,7 @@ interface ChatBubbleProps {
   toolCalls?: ToolCall[];
   onConfirm?: (toolName: string) => void;
   onReject?: (toolName: string) => void;
+  onCopy?: (content: string) => void;
 }
 
 export function ChatBubble({
@@ -23,6 +24,7 @@ export function ChatBubble({
   toolCalls,
   onConfirm,
   onReject,
+  onCopy,
 }: ChatBubbleProps) {
   const { theme } = useTheme();
   const { t } = useTranslation();
@@ -51,11 +53,34 @@ export function ChatBubble({
         {content ? (
           <ThemedText
             style={[styles.text, isUser && { color: theme.buttonText }]}
+            selectable={!isUser}
           >
             {content}
-            {isStreaming ? "▌" : ""}
+            {isStreaming ? "|" : ""}
           </ThemedText>
         ) : null}
+
+        {!isUser && !isStreaming && content.trim().length > 0 && (
+          <View style={styles.copyRow}>
+            <Pressable
+              style={styles.copyButton}
+              onPress={() => onCopy?.(content)}
+              accessibilityRole="button"
+              accessibilityLabel="Copy message"
+            >
+              <Ionicons
+                name="copy-outline"
+                size={13}
+                color={theme.textSecondary}
+              />
+              <ThemedText
+                style={[styles.copyText, { color: theme.textSecondary }]}
+              >
+                Copy
+              </ThemedText>
+            </Pressable>
+          </View>
+        )}
 
         {toolCalls && toolCalls.length > 0 && (
           <View style={styles.toolCalls}>
@@ -183,6 +208,21 @@ const styles = StyleSheet.create({
   text: {
     fontSize: 16,
     lineHeight: 24,
+  },
+  copyRow: {
+    marginTop: Spacing.xs,
+    alignItems: "flex-end",
+  },
+  copyButton: {
+    flexDirection: "row",
+    alignItems: "center",
+    gap: 6,
+    paddingHorizontal: 6,
+    paddingVertical: 4,
+  },
+  copyText: {
+    fontSize: 12,
+    fontWeight: "500",
   },
   toolCalls: {
     marginTop: Spacing.sm,

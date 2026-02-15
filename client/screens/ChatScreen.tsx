@@ -10,6 +10,7 @@ import {
   Alert,
   ActionSheetIOS,
   ScrollView,
+  Clipboard,
 } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { useHeaderHeight } from "@react-navigation/elements";
@@ -730,6 +731,15 @@ export default function ChatScreen() {
     [handleFork, t],
   );
 
+  const handleCopyMessage = useCallback((content: string) => {
+    const text = content.trim();
+    if (!text) return;
+    Clipboard.setString(text);
+    if (Platform.OS !== "web") {
+      Haptics.selectionAsync().catch(() => {});
+    }
+  }, []);
+
   const renderMessage = useCallback(
     ({ item, index }: { item: ChatMessage; index: number }) => {
       const isLastAssistant =
@@ -738,13 +748,20 @@ export default function ChatScreen() {
         !isStreaming;
 
       return (
-        <Pressable onLongPress={() => handleMessageLongPress(item)}>
+        <Pressable
+          onLongPress={
+            item.role === "user"
+              ? () => handleMessageLongPress(item)
+              : undefined
+          }
+        >
           <ChatBubble
             content={item.content}
             isUser={item.role === "user"}
             toolCalls={item.toolCalls}
             onConfirm={handleConfirmAction}
             onReject={handleRejectAction}
+            onCopy={handleCopyMessage}
           />
           {isLastAssistant && (
             <Pressable style={styles.regenerateBtn} onPress={handleRegenerate}>
